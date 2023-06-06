@@ -1,0 +1,124 @@
+<header>
+  <img src="images/logo.webp" alt="Roblox" />
+  <h1>Roblox APM Music Catalog</h1>
+</header>
+
+<main>
+  <!-- Filters -->
+  <section class="filters">
+    <h2>Filters</h2>
+
+    <label for="name">Name</label>
+    <input id="name" [(ngModel)]="audioName" (blur)="refresh()" />
+
+    <label for="description">Description</label>
+    <input id="description" [(ngModel)]="audioDescription" (blur)="refresh()" />
+
+    <label for="genre">Genre</label>
+    <select id="genre" [ngModel]="selectedGenre" (ngModelChange)="selectGenre($event)">
+      <option value=""></option>
+      <option *ngFor="let genre of genres" [value]="genre.id.toString()">{{genre.name}}</option>
+    </select>
+
+    <label for="album">Album</label>
+    <input id="album" [(ngModel)]="albumName" (blur)="refresh()" />
+
+    <label for="library">Library</label>
+    <input id="library" [(ngModel)]="libraryName" (blur)="refresh()" />
+
+    <label for="minSeconds">Min Seconds</label>
+    <input id="minSeconds" type="number" [(ngModel)]="minDuration" (blur)="refresh()" />
+    
+    <label for="maxSeconds">Max Seconds</label>
+    <input id="maxSeconds" type="number" [(ngModel)]="maxDuration" (blur)="refresh()" />
+  </section>
+  <!-- Audio -->
+  <section class="audio-list">
+    <h2>Audio<i *ngIf="loading" class="loading-spinner icomoon-spinner2 icomoon-spin"></i></h2>
+
+    <div class="audio-scroll-view">
+      <div #scrollContainer class="audio-scroll-view-inner">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Duration</th>
+              <th>Genre</th>
+              <th>Album</th>
+              <th>Library</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let audio of audios" [ngClass]="{'active': audio.id == selectedAudio?.id}" (click)="selectAudio(audio)">
+              <td>{{audio.name}}</td>
+              <td>{{audio.duration?.inSeconds}}s</td>
+              <td>{{audio.genreName}}</td>
+              <td>{{audio.albumName}}</td>
+              <td>{{audio.libraryName}}</td>
+              <td title="{{audio.description}}">{{audio.description}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="pager">
+      <div>
+        <span>Page: </span>
+        <input type="number" [(ngModel)]="page" (blur)="goToPage(page)" (keydown)="onPageEntered" [disabled]="loading" />
+        <span>/{{pages}} | Total: {{totalAudios}}</span>
+      </div>
+      <div>
+        <button [disabled]="loading" (click)="randomPage()">Random</button>
+        <button [disabled]="loading || prevPageDisabled" (click)="prevPage()">Prev</button>
+        <button [disabled]="loading || nextPageDisabled" (click)="nextPage()">Next</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer *ngIf="selectedAudio == null"></footer>
+<footer *ngIf="selectedAudio != null">
+  <section>
+    <div><strong>{{selectedAudio.name}}</strong></div>
+    <div>{{selectedAudio.description}}</div>
+  </section>
+  <section>
+    <audio #audioElement controls preload="none"></audio>
+  </section>
+  <section class="asset-details-column">
+    <div>
+      <strong>Roblox Asset:</strong>
+      <a target="_blank" [href]="selectedAudio.absoluteUrl">{{selectedAudio.assetId}}</a> ({{selectedAudio.assetId}})
+    </div>
+    <div>
+      <strong>Genre:</strong> {{selectedAudio.genreName}}
+      <button 
+          class="mini-search-button" 
+          title="Filter by" 
+          (click)="searchGenre(selectedAudio.genreId)">
+        <i class="icomoon-search"></i>
+      </button>
+    </div>
+    <div>
+      <strong>Library:</strong> {{selectedAudio.libraryName}}
+      <button 
+          class="mini-search-button" 
+          title="Filter by" 
+          (click)="searchLibrary(selectedAudio.libraryName)">
+        <i class="icomoon-search"></i>
+      </button>
+    </div>
+    <div>
+      <strong>Album:</strong> {{selectedAudio.albumName}}
+      <button 
+          class="mini-search-button" 
+          title="Filter by" 
+          (click)="searchAlbum(selectedAudio.albumName)">
+        <i class="icomoon-search"></i>
+      </button>
+    </div>
+    <div class="album-info">{{selectedAudio.albumInfo}}</div>
+  </section>
+</footer>

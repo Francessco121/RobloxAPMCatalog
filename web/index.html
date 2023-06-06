@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Roblox APM Music Catalog</title>
+
+    <link rel="shortcut icon" href="images/logo.webp" type="image/x-icon">
+
+    <!-- Ico Moon -->
+    <link href="styles/icomoon.css" rel="stylesheet" type="text/css" />
+
+    <!-- App base CSS -->
+    <link href="styles/normalize.css" rel="stylesheet" type="text/css" />
+    <link href="styles/colors.css" rel="stylesheet" type="text/css" />
+    <link href="styles/base.css" rel="stylesheet" type="text/css" />
+    <link href="styles/icomoon_extensions.css" rel="stylesheet" type="text/css" />
+    <link href="styles/pre_app.css" rel="stylesheet" type="text/css" />
+
+    <script>
+      (function() {
+        let https = require('https');
+        let fs   = require('fs');
+        let zlib = require('zlib');
+        let remote = require('electron').remote;
+        let app  = remote.app;
+
+        window.downloadTempAudio = function(url, uniqueId, callback) {
+          let tempUri = app.getPath('userData') + "/" + uniqueId + ".mp3";
+          
+          let file = fs.createWriteStream(tempUri);
+
+          let request = https.get(url, function(response) {
+            response.on('end', function() { callback(tempUri); });
+
+            // Read first two bytes first to determine if the data is gzip'd
+            let foundSignature = false;
+            function onReadable() {
+              if (foundSignature) return;
+
+              let signature = response.read(2);
+
+              if (signature != null) {
+                foundSignature = true;
+                response.removeListener('readable', onReadable);
+
+                if (signature[0] === 0x1f && signature[1] === 0x8b) {
+                  let unzip = zlib.createGunzip();
+                  unzip.write(signature);
+
+                  response.pipe(unzip).pipe(file);
+                } else {
+                  response.pipe(file);
+                }
+              }
+            }
+
+            response.on('readable', onReadable);
+          });
+        };
+
+        window.deleteTempAudio = function(uniqueId) {
+          let tempUri = app.getPath('userData') + "/" + uniqueId + ".mp3";
+
+          fs.unlink(tempUri, () => {});
+        };
+
+        document.addEventListener('keypress', function (evt) {
+          if (evt.ctrlKey && evt.shiftKey && evt.key === 'I') {
+            let _window = remote.getCurrentWindow();
+
+            if (!_window.isDevToolsOpened()) {
+              _window.openDevTools();
+            }
+          }
+        });
+      })();
+
+      window._electronRequire = require;
+      delete window.require;
+    </script>
+
+    <!-- App JS -->
+    <script defer src="main.dart.js"></script>
+  </head>
+  <body>
+    <rac-root-view>
+      <div class="pre-app-loading-container">
+        <img src="images/logo.webp" alt="Roblox" />
+        <h1>Roblox APM Music Catalog</h1>
+        <h2>Loading... <i class="icomoon-spinner2 icomoon-spin"></i></h2>
+      </div>
+    </rac-root-view>
+  </body>
+</html>

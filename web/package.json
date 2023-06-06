@@ -1,0 +1,20 @@
+{
+  "name": "roblox-apm-music-catalog",
+  "productName": "Roblox APM Music Catalog",
+  "version": "1.0.0",
+  "main": "entry.js",
+  "scripts": {
+    "build": "electron-packager . --icon icon",
+    "package": "electron-packager . --all --icon icon",
+    "start": "electron .",
+    "postinstall": "install-app-deps"
+  },
+  "dependencies": {
+    "electron": "^6.0.5",
+    "sqlite3": "^4.1.0"
+  },
+  "devDependencies": {
+    "electron-builder": "^21.2.0",
+    "electron-packager": "^12.2.0"
+  }
+}

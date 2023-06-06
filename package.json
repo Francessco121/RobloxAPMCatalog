@@ -1,0 +1,23 @@
+{
+  "name": "roblox-apm-music-catalog",
+  "version": "1.0.0",
+  "description": "An offline browser for Roblox's APM music.",
+  "main": "dev_entry.js",
+  "scripts": {
+    "build": "npm run icons && pub run build_runner build --config=release -o web:build -r",
+    "build_runner_serve": "pub run build_runner serve --hot-reload",
+    "dev": "run-p \"build_runner_serve\" \"start\"",
+    "icons": "png2icons web/icon.png web/icon -allp -bc -i",
+    "start": "electron .",
+    "postinstall": "install-app-deps"
+  },
+  "dependencies": {
+    "electron": "^6.0.5",
+    "png2icons": "^1.0.1",
+    "sqlite3": "^4.1.0"
+  },
+  "devDependencies": {
+    "electron-builder": "^21.2.0",
+    "npm-run-all": "^4.1.5"
+  }
+}

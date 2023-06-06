@@ -1,0 +1,220 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+}
+
+input, select {
+  width: 100%;
+  font-size: 12px;
+  box-sizing: border-box;
+}
+
+header {
+  height: 50px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  border-bottom: 1px solid #ccc;
+  padding: 8px 16px;
+
+  flex-shrink: 0;
+}
+
+header img {
+  height: 100%;
+  margin-right: 16px;
+}
+
+header h1 {
+  margin: 0;
+  margin-bottom: 4px;
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}
+
+main section {
+  padding: 16px;
+}
+
+main section .loading-spinner {
+  margin-left: 16px;
+  font-size: 20px;
+}
+
+main .filters {
+  flex-shrink: 0;
+  flex-grow: 0;
+  width: 250px;
+
+  border-right: 1px solid #ccc;
+}
+
+main .audio-list {
+  flex-grow: 1;
+  
+  display: flex;
+  flex-direction: column;
+}
+
+main .audio-list .audio-scroll-view {
+  height: 100%;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+main .audio-list .audio-scroll-view .audio-scroll-view-inner {
+  height: 100%;
+  overflow-y: auto;
+  position: relative;
+}
+
+main .audio-list .audio-scroll-view table {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+main .audio-list .pager {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #ccc;
+  padding-top: 16px;
+}
+
+main .audio-list .pager input {
+  display: inline-block;
+  width: 60px;
+}
+
+footer {
+  flex-shrink: 0;
+  
+  height: 140px;
+  border-top: 1px solid #ccc;
+
+  padding: 16px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  background-color: #f0f6fd;
+}
+
+footer section {
+  width: 33.3333333333%;
+}
+
+footer section audio {
+  width: 100%;
+  outline: none;
+}
+
+footer section audio::-webkit-media-controls-enclosure {
+  background: none;
+}
+
+footer section:first-child {
+  margin-right: 16px;
+}
+
+footer section:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+footer section:last-child {
+  margin-left: 16px;
+  text-align: right;
+}
+
+footer .asset-details-column {
+  display: flex;
+  flex-direction: column;
+}
+
+footer .album-info {
+  overflow: auto;
+  flex-grow: 1;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table thead {
+  background-color: #ddd;
+}
+
+table th {
+  text-align: left;
+}
+
+table th, 
+table td {
+  border: 1px solid #bbb;
+  padding: 8px;
+}
+
+table tbody tr {
+  cursor: pointer;
+}
+
+table tbody tr:nth-child(odd) {
+  background-color: rgb(240, 240, 240);
+}
+
+table tbody tr:hover {
+  background-color: #d9e9fb
+}
+
+table tbody tr.active {
+  background-color: #7db3f1;
+}
+
+table tbody tr td {
+  max-width: 400px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.mini-search-button {
+  border: none;
+  background: none;
+  outline: none;
+  border-radius: 50%;
+
+  display: inline-block;
+  padding: 0;
+  font-size: 13px;
+  margin-left: 2px;
+  padding: 4px;
+}
+
+.mini-search-button:hover {
+  background-color: rgb(230, 230, 230);
+}
+
+.mini-search-button:active {
+  background-color: rgb(220, 220, 220);
+}
